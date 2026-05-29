@@ -8,6 +8,9 @@ public class Product {
         if (price < 0) {
             throw new IllegalArgumentException("Цена товара не может быть отрицательной");
         }
+        if (name.isEmpty() || id.isEmpty()) {
+            throw new IllegalArgumentException("У товара не может не быть табельного номера");
+        }
         this.id = id;
         this.name = name;
         this.price = price;
