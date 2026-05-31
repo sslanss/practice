@@ -33,6 +33,14 @@ public class Main {
                     .filter(p -> p.getId().equals(id))
                     .findFirst();
         }
+
+        @Override
+        public Optional<Product> findByName(String name) {
+            return products.stream()
+                    .filter(p -> p.getId().equals(name))
+                    .findFirst();
+        }
+
         @Override
         public List<Product> findAll() {
             return products;
