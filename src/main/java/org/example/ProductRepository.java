@@ -7,4 +7,5 @@ public interface ProductRepository {
     Optional<Product> findById(String id);
     Optional <Product> findByName(String name);
     List<Product> findAll();
+    List<Product> findLowerByPrice(Double price);
 }

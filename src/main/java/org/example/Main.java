@@ -42,6 +42,13 @@ public class Main {
         }
 
         @Override
+        public List<Product> findLowerByPrice(Double price) {
+            return products.stream()
+                    .filter(p -> p.getPrice() < price)
+                    .toList();
+        }
+
+        @Override
         public List<Product> findAll() {
             return products;
         }
