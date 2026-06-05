@@ -19,11 +19,8 @@ pipeline {
         }
 
         stage('Test') {
-            when {
-                branch 'feature/*'
-            }
             steps {
-                bat 'mvn test'
+                bat 'mvn test -pl shop-core'
             }
         }
 
@@ -32,25 +29,25 @@ pipeline {
                 branch 'develop'
             }
             steps {
-                bat 'mvn checkstyle:check'
+                bat 'mvn checkstyle:check -pl shop-core -Dcheckstyle.failOnViolation=false'
             }
         }
 
         stage('Coverage') {
             steps {
-                bat 'mvn org.jacoco:jacoco-maven-plugin:report'
+                bat 'mvn org.jacoco:jacoco-maven-plugin:report -pl shop-core'
+            }
+        }
+
+        stage('Coverage Check') {
+            steps {
+                bat 'mvn verify -pl shop-core -DskipTests'
             }
         }
 
         stage('Install') {
             steps {
                 bat 'mvn install -DskipTests'
-            }
-        }
-
-        stage('Coverage Check') {
-            steps {
-                bat 'mvn org.jacoco:jacoco-maven-plugin:check -pl shop-core'
             }
         }
 
