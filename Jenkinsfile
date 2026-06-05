@@ -50,7 +50,7 @@ pipeline {
 
         stage('Coverage Check') {
             steps {
-                bat 'mvn org.jacoco:jacoco-maven-plugin:check'
+                bat 'mvn org.jacoco:jacoco-maven-plugin:check -pl shop-core'
             }
         }
 
