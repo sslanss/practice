@@ -5,10 +5,14 @@ pipeline {
         maven 'Maven'
     }
 
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'develop', description: 'Ветка для сборки')
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: params.BRANCH_NAME, url: 'https://github.com/sslanss/practice.git'
             }
         }
 
@@ -26,7 +30,7 @@ pipeline {
 
         stage('Checkstyle') {
             when {
-                branch 'develop'
+                expression { params.BRANCH_NAME == 'develop' }
             }
             steps {
                 bat 'mvn checkstyle:check -pl shop-core -Dcheckstyle.failOnViolation=false'
@@ -50,20 +54,15 @@ pipeline {
                 bat 'mvn install -DskipTests'
             }
         }
-
-        stage('Publish') {
-            steps {
-                bat 'xcopy /Y shop-app\\target\\*jar-with-dependencies.jar C:\\artifacts\\'
-            }
-        }
     }
 
     post {
+        success {
+            echo 'Build successful! Publishing artifact...'
+            bat 'xcopy /Y shop-app\\target\\*jar-with-dependencies.jar C:\\artifacts\\'
+        }
         failure {
             echo 'Pipeline failed!'
-        }
-        success {
-            echo 'Build successful!'
         }
     }
 }
