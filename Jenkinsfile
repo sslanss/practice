@@ -38,7 +38,7 @@ pipeline {
 
         stage('Coverage') {
             steps {
-                bat 'mvn jacoco:report'
+                bat 'mvn org.jacoco:jacoco-maven-plugin:report'
             }
         }
 
@@ -50,7 +50,7 @@ pipeline {
 
         stage('Coverage Check') {
             steps {
-                bat 'mvn jacoco:check'
+                bat 'mvn org.jacoco:jacoco-maven-plugin:check'
             }
         }
 
